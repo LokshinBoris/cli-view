@@ -58,15 +58,36 @@ public interface InputOutput
 		Double res= readObject(prompt,errorPrompt,str->
 								{
 									Double d=Double.parseDouble(str);
-									if(d<min || d>=max) 
+									if(d<min || d>max) 
 									{
-										String erStr=String.format("%f < %f or %f >= %f ", d,min,d,max);
+										String erStr=String.format("%f < %f or %f > %f ", d,min,d,max);
 										throw new RuntimeException(erStr);
 									}
 									return d;
 								}
 					);
 		return res;			
+	}
+	
+	default Double readNumberRangeWithPredicate(String prompt,String errorPrompt,
+												String errorPromptForPredicate,double min, double max,Predicate<String> predicate)
+	{
+		Double res= readObject(prompt,errorPrompt,str->
+		{
+			Double d=Double.parseDouble(str);
+			if(d<min || d>max) 
+			{
+				String erStr=String.format("%f < %f or %f > %f ", d,min,d,max);
+				throw new RuntimeException(erStr);
+			}
+			if(!predicate.test(str))
+			{
+				throw new RuntimeException(errorPromptForPredicate);
+			}		
+			return d;
+		}
+								);
+return res;		
 	}
 	
 	default String readStringPredicate(String prompt,String errorPrompt,Predicate<String> predicate) 
