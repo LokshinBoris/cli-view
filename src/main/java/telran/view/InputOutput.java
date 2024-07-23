@@ -1,4 +1,4 @@
-package bbl.view;
+package telran.view;
 
 import java.time.LocalDate;
 import java.util.HashSet;

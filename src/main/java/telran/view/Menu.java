@@ -1,4 +1,4 @@
-package bbl.view;
+package telran.view;
 
 import java.util.stream.IntStream;
 
